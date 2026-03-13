@@ -41,14 +41,33 @@ clearButton.addEventListener("click" , () =>{
     input.focus();
 });
 
-const from = document.getElementById("userFrom");
+const form = document.getElementById("userForm");
 const usernameInput = document.getElementById("username");
 const ageInput = document.getElementById("age");
-const result = document.getElementById("fromResult");
-from.addEventListener("submit" , (event) =>{
+const result = document.getElementById("formResult");
+
+form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const name = usernameInput.value;
-    const age = ageInput.value;
-    result.textContent = `имя ${name} возраст ${age}`;
-    
+
+    const name = usernameInput.value.trim();
+    const age = Number(ageInput.value);
+
+    if (name === "") {
+        result.textContent = "Ошибка: имя не может быть пустым";
+        result.style.color = "red";
+        usernameInput.focus();
+        return;
+    }
+
+    if (isNaN(age) || age <= 0 || age > 120) {
+        result.textContent = "Ошибка: возраст должен быть от 1 до 120";
+        result.style.color = "red";
+        ageInput.focus();
+        return;
+    }
+
+    result.textContent = `Данные сохранены: ${name}, ${age} лет`;
+    result.style.color = "green";
+
+    form.reset();
 });
